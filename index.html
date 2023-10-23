@@ -1,0 +1,56 @@
+<!doctype html>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<div class="container">
+<br>
+    <div class="jumbotron">
+     <h1 class="display-4">Send Message</h1>
+     <br>
+     <input id="name" class="form-control" placeholder="Name">
+     <br>
+     <textarea id="message" class="form-control" placeholder="Message"></textarea>
+     <br>
+     <button id="send" class="btn btn-success">Send</button>
+    </div>
+    <br>
+    <div id="messages">
+
+    </div>
+</div> 
+ 
+<script>
+    var socket = io()
+    // a jquery function $(() => {}) symbolizes that document finshes loading
+    $(()=>
+    {
+        $("#send").click(()=>
+        {
+            var message ={name:$("#name").val(),message:$('#message').val()}
+            postMessage(message)
+        })
+        getMessages()
+    })
+
+    socket.on('message', addMessages)
+    function addMessages(message)
+    {
+        $("#messages").append(`<h4> ${message.name} </h4> <p1>${message.message} </p>`)
+    }
+
+    function getMessages() {
+        $.get('http://localhost:3000/messages',(data,err)=>
+        {
+            if(err)
+                console.log(err)
+           data.forEach(addMessages);
+        })
+    }
+
+    function postMessage(message) {
+        $.post('http://localhost:3000/messages',message)
+    }
+</script> 
+</html>
