@@ -1,0 +1,51 @@
+name: Deploy Chat App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install project dependencies
+      run: npm install
+
+    - name: Start MongoDB
+      run: |
+        docker run -d --name mongo -p 27017:27017 mongo
+      if: success()
+
+    - name: Start the server
+      run: npm start &
+      env:
+        MONGO_URL: mongodb://localhost:27017/shikharujjwal 
+
+    - name: Wait for server to start
+      run: |
+        until [ $(curl --output /dev/null --silent --head --fail http://localhost:3000) ]; do
+          echo 'Waiting for the server to start...'
+          sleep 1
+        done
+      if: success()
+
+    - name: Build and deploy to GitHub Pages
+      run: |
+        npm run build  # Replace with your build command if needed
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor }}@users.noreply.github.com"
+        git checkout gh-pages
+        git add .
+        git commit -m "Deploy to GitHub Pages"
+        git push
+      if: success()
