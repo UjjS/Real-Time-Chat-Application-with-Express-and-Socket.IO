@@ -33,7 +33,7 @@ jobs:
 
     - name: Wait for server to start
       run: |
-        until [ $(curl --output /dev/null --silent --head --fail https://ujjs.github.io/Real-Time-Chat-Application-with-Express-and-Socket.IO/) ]; do
+        until [ $(curl --output /dev/null --silent --head --fail http://localhost:3000) ]; do
           echo 'Waiting for the server to start...'
           sleep 1
         done
