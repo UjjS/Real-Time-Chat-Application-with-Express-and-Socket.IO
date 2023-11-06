@@ -65,10 +65,7 @@ The server will start, and you can access the application in your web browser at
 
 ## Demo ##
 This is a working demo for the same 
-
-
-
-
+<img src="https://drive.google.com/uc?export=view&id=1qQm5jwAG0xpg0FoNleJfZZteSQvClBkw" width="500" height="300">
 
 
 ## API Reference
