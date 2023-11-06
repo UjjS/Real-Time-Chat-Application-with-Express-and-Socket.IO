@@ -66,7 +66,7 @@ The server will start, and you can access the application in your web browser at
 ## Demo ##
 This is a working demo for the same 
 
- ![Your GIF](https://drive.google.com/uc?export=view&id=1jW40EdmFbtFnqz5oDjSTT3mdrGeCJ69l)
+
 
 
 
